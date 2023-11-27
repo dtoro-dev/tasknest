@@ -1,0 +1,15 @@
+version: '3.1'
+
+services:
+  tasknest_pg:
+    image: postgres:15.1
+    container_name: tasknest_pg
+    restart: always
+    environment:
+      POSTGRES_DB: tasknestdb
+      POSTGRES_USER: udtoro
+      POSTGRES_PASSWORD: secret1234
+    volumes:
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - 5433:5432
