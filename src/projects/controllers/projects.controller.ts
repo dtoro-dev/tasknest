@@ -8,35 +8,35 @@ import {
   Delete,
 } from '@nestjs/common';
 import { ProjectsService } from '../services/projects.service';
-import { CreateProjectDto } from '../dto/create-project.dto';
-import { UpdateProjectDto } from '../dto/update-project.dto';
+import { ProjectDto } from '../dto/project.dto';
+import { ProjectUpdateDTO } from '../dto/projectUpdate.dto';
 
 @Controller('projects')
 export class ProjectsController {
   constructor(private readonly projectsService: ProjectsService) {}
 
-  @Post()
-  create(@Body() createProjectDto: CreateProjectDto) {
-    return this.projectsService.create(createProjectDto);
+  @Post('create')
+  create(@Body() body: ProjectDto) {
+    return this.projectsService.createProject(body);
   }
 
-  @Get()
+  @Get('all')
   findAll() {
-    return this.projectsService.findAll();
+    return this.projectsService.findProjects();
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.projectsService.findOne(+id);
+    return this.projectsService.findProjectById(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProjectDto: UpdateProjectDto) {
-    return this.projectsService.update(+id, updateProjectDto);
+  @Patch('edit/:id')
+  update(@Param('id') id: string, @Body() body: ProjectUpdateDTO) {
+    return this.projectsService.updateProject(id, body);
   }
 
-  @Delete(':id')
+  @Delete('delete/:id')
   remove(@Param('id') id: string) {
-    return this.projectsService.remove(+id);
+    return this.projectsService.deleteProject(id);
   }
 }
