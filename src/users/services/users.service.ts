@@ -44,6 +44,13 @@ export class UsersService {
 
   public async findUserById(id: string): Promise<UsersEntity> {
     try {
+      if (!id) {
+        throw new ErrorManager({
+          type: 'BAD_REQUEST',
+          message: `User not found`,
+        });
+      }
+
       const user: UsersEntity = await this.userRepository
         .createQueryBuilder('user')
         .where({ id })
@@ -63,10 +70,17 @@ export class UsersService {
   }
 
   public async updateUser(
-    body: UserUpdateDTO,
     id: string,
+    body: UserUpdateDTO,
   ): Promise<UpdateResult | undefined> {
     try {
+      if (!id) {
+        throw new ErrorManager({
+          type: 'BAD_REQUEST',
+          message: `User not found`,
+        });
+      }
+
       const user: UpdateResult = await this.userRepository.update(id, body);
       if (user.affected === 0) {
         throw new ErrorManager({
@@ -86,6 +100,13 @@ export class UsersService {
 
   public async deleteUser(id: string): Promise<DeleteResult | undefined> {
     try {
+      if (!id) {
+        throw new ErrorManager({
+          type: 'BAD_REQUEST',
+          message: `User not found`,
+        });
+      }
+
       const user: DeleteResult = await this.userRepository.delete(id);
       if (user.affected === 0) {
         throw new ErrorManager({

@@ -18,17 +18,20 @@ export class UsersController {
 
   @Post('register')
   public async registerUser(@Body() body: UserDTO) {
-    return await this.usersService.createUser(body);
+    const user = await this.usersService.createUser(body);
+    return user;
   }
 
   @Get('all')
   public async getAllUsers() {
-    return await this.usersService.findUsers();
+    const users = await this.usersService.findUsers();
+    return users;
   }
 
   @Get(':id')
   public async findUserById(@Param('id') id: string) {
-    return await this.usersService.findUserById(id);
+    const user = await this.usersService.findUserById(id);
+    return user;
   }
 
   @Put('edit/:id')
@@ -36,11 +39,13 @@ export class UsersController {
     @Param('id') id: string,
     @Body() body: UserUpdateDTO,
   ) {
-    return await this.usersService.updateUser(body, id);
+    const user = await this.usersService.updateUser(id, body);
+    return user;
   }
 
   @Delete('delete/:id')
   public async deleteUser(@Param('id', new ParseUUIDPipe()) id: string) {
-    return await this.usersService.deleteUser(id);
+    const user = await this.usersService.deleteUser(id);
+    return user;
   }
 }
